@@ -19,15 +19,14 @@ var config = {
 
     paths: {
         html: './src/*.html',
-        js: './src/**/*.js*',
+        js: 'js/**/*.js*',
         images: './src/images/*',
         dist: './dist',
         fonts: './node_modules/bootstrap/fonts/**',
         css: [
-			'./node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
-			'./node_modules/bootstrap/dist/css/bootstrap.min.css'
+			"css/**/*.css""
         ],
-        mainJs: './src/main.jsx'
+        mainJs: 'js/**/main.jsx'
     }
 };
 
