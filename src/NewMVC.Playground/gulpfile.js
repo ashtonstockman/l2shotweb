@@ -1,54 +1,105 @@
-﻿/// <binding BeforeBuild='min' AfterBuild='min:js, min:css' Clean='clean' />
+﻿/// <binding AfterBuild='default' />
 "use strict";
 
-require('gulp-task-loader')();
+var gulp = require('gulp');
+var sourcemaps = require('gulp-sourcemaps');
+var connect = require('gulp-connect');
+var open = require('gulp-open');
+var browserify = require('browserify');
+var babelify = require("babelify");
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var concat = require('gulp-concat');
+var lint = require('gulp-eslint');
+var del = require('del');
 
-var gulp = require("gulp"),
-    rimraf = require("rimraf"),
-    concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify"),
-    babelify = require("babelify"),
-    browserify = require("browserify");
+var config = {
+    port: 9005,
+    devBaseUrl: 'http://localhost',
 
-
-
-    
-
-var paths = {
-    webroot: "./wwwroot/"
+    paths: {
+        html: './src/*.html',
+        js: './src/**/*.js*',
+        images: './src/images/*',
+        dist: './dist',
+        fonts: './node_modules/bootstrap/fonts/**',
+        css: [
+			'./node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
+			'./node_modules/bootstrap/dist/css/bootstrap.min.css'
+        ],
+        mainJs: './src/main.jsx'
+    }
 };
 
-paths.js = paths.webroot + "js/**/*.js";
-paths.minJs = paths.webroot + "js/**/*.min.js";
-paths.css = paths.webroot + "css/**/*.css";
-paths.minCss = paths.webroot + "css/**/*.min.css";
-paths.concatJsDest = paths.webroot + "js/site.min.js";
-paths.concatCssDest = paths.webroot + "css/site.min.css";
-
-gulp.task("clean:js", function (cb) {
-    rimraf(paths.concatJsDest, cb);
+gulp.task('html', function () {
+    gulp.src(config.paths.html)
+		.pipe(gulp.dest(config.paths.dist))
+		.pipe(connect.reload());
 });
 
-gulp.task("clean:css", function (cb) {
-    rimraf(paths.concatCssDest, cb);
+gulp.task('js', function () {
+    browserify(config.paths.mainJs, { debug: true, extensions: ['.js', '.jsx'] })
+		.transform(babelify)
+		.bundle()
+		.on('error', console.error.bind(console))
+		.pipe(source('bundle.js'))
+		.pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+		.pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest(config.paths.dist + '/scripts'))
+		.pipe(connect.reload());
 });
 
-gulp.task("clean", ["clean:js", "clean:css"]);
 
-gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
-        .pipe(concat(paths.concatJsDest))
-        .pipe(uglify())
-        .pipe(gulp.dest("."));
+
+gulp.task('css', function () {
+    gulp.src(config.paths.css)
+		.pipe(concat('bundle.css'))
+		.pipe(gulp.dest(config.paths.dist + '/css'));
+}); 
+
+gulp.task('images', function () {
+    gulp.src(config.paths.images)
+		.pipe(gulp.dest(config.paths.dist + '/images'))
+		.pipe(connect.reload());
+
+    gulp.src('.src/favicon.ico')
+        .pipe(gulp.dest(config.paths.dist));
 });
 
-gulp.task("min:css", function () {
-    return gulp.src([paths.css, "!" + paths.minCss])
-        .pipe(concat(paths.concatCssDest))
-        .pipe(cssmin())
-        .pipe(gulp.dest("."));
+gulp.task('fonts', function () {
+    gulp.src(config.paths.fonts)
+		.pipe(gulp.dest(config.paths.dist + '/fonts'))
+		.pipe(connect.reload());
 });
 
-gulp.task("min", ["min:js", "min:css"]);
+gulp.task('watch', function () {
+    gulp.watch(config.paths.html, ['html']);
+    gulp.watch(config.paths.js, ['js', 'lint']);
+})
 
+gulp.task('lint', function () {
+    return gulp.src(config.paths.js)
+		.pipe(lint({ config: 'eslint.config.json' }))
+		.pipe(lint.format());
+});
+
+gulp.task('connect', function () {
+    connect.server({
+        root: ['dist'],
+        port: config.port,
+        base: config.devBaseUrl,
+        livereload: true
+    });
+});
+
+gulp.task('open', ['connect'], function () {
+    gulp.src('dist/index.html')
+		.pipe(open({ uri: config.devBaseUrl + ':' + config.port + '/' }));
+});
+
+gulp.task('_clean', function () {
+    return del(['./dist/*']);
+});
+
+gulp.task('_default', ['html', 'js', 'css', 'images', 'fonts', 'lint', 'open', 'watch']);
