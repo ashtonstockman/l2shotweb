@@ -24,7 +24,7 @@ var config = {
         dist: './dist',
         fonts: './node_modules/bootstrap/fonts/**',
         css: [
-			"css/**/*.css""
+			"css/**/*.css"
         ],
         mainJs: 'js/**/main.jsx'
     }
