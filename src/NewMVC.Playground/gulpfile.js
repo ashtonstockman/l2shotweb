@@ -1,9 +1,9 @@
-/// <binding AfterBuild='default' />
+﻿/// <binding AfterBuild='default' />
 "use strict";
 
 var gulp = require('gulp');
 var sourcemaps = require('gulp-sourcemaps');
-var connect = require('gulp-connect'); 
+var connect = require('gulp-connect');
 var open = require('gulp-open');
 var browserify = require('browserify');
 var babelify = require("babelify");
@@ -50,11 +50,13 @@ gulp.task('js', function () {
 		.pipe(connect.reload());
 });
 
+
+
 gulp.task('css', function () {
     gulp.src(config.paths.css)
 		.pipe(concat('bundle.css'))
 		.pipe(gulp.dest(config.paths.dist + '/css'));
-});
+}); 
 
 gulp.task('images', function () {
     gulp.src(config.paths.images)
