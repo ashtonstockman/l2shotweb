@@ -1,15 +1,15 @@
 ﻿/// <binding BeforeBuild='min' AfterBuild='min:js, min:css' Clean='clean' />
 "use strict";
 
-require('gulp-task-loader')();
-
 var gulp = require("gulp"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify"),
     babelify = require("babelify"),
-    browserify = require("browserify");
+    browserify = require("browserify"),
+    buffer = require('vinyl-buffer'),
+    source = require('vinyl-source-stream');
 
 
 
@@ -20,6 +20,7 @@ var paths = {
 };
 
 paths.js = paths.webroot + "js/**/*.js";
+paths.jsx = paths.webroot + "jsx/**/*.jsx";
 paths.minJs = paths.webroot + "js/**/*.min.js";
 paths.css = paths.webroot + "css/**/*.css";
 paths.minCss = paths.webroot + "css/**/*.min.css";
@@ -52,3 +53,14 @@ gulp.task("min:css", function () {
 
 gulp.task("min", ["min:js", "min:css"]);
 
+gulp.task('handleJsx', function () {
+    var bundler = browserify(paths.webroot + 'jsx/main.jsx');
+    bundler.transform(babelify, { presets: ['es2015', 'react'] });
+
+    bundler.bundle()
+        .on('error', function (err) { console.error(err); })
+        .pipe(source('bundle.js'))
+        .pipe(buffer())
+        .pipe(uglify()) // Use any gulp plugins you want now
+        .pipe(gulp.dest(paths.webroot + 'prod'));
+});
