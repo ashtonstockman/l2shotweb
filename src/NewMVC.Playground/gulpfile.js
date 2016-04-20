@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='min' AfterBuild='min:js, min:css' Clean='clean' />
+﻿/// <binding />
 "use strict";
 
 var gulp = require("gulp"),
@@ -61,6 +61,6 @@ gulp.task('handleJsx', function () {
         .on('error', function (err) { console.error(err); })
         .pipe(source('bundle.js'))
         .pipe(buffer())
-        .pipe(uglify()) // Use any gulp plugins you want now
+        //.pipe(uglify()) // Use any gulp plugins you want now
         .pipe(gulp.dest(paths.webroot + 'prod'));
 });
