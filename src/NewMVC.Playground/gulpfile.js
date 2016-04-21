@@ -9,44 +9,48 @@ var gulp = require("gulp"),
     babelify = require("babelify"),
     browserify = require("browserify"),
     buffer = require('vinyl-buffer'),
-    source = require('vinyl-source-stream');
+    source = require('vinyl-source-stream'),
+    sourcemaps = require('gulp-sourcemaps');
 
 
 
     
 
 var paths = {
-    webroot: "./wwwroot/"
+    sourceRoot: "./source/",
+    deployRoot: "./wwwroot/",
+    source: {},
+    prod: {}
 };
 
-paths.js = paths.webroot + "js/**/*.js";
-paths.jsx = paths.webroot + "jsx/**/*.jsx";
-paths.minJs = paths.webroot + "js/**/*.min.js";
-paths.css = paths.webroot + "css/**/*.css";
-paths.minCss = paths.webroot + "css/**/*.min.css";
-paths.concatJsDest = paths.webroot + "js/site.min.js";
-paths.concatCssDest = paths.webroot + "css/site.min.css";
+paths.source.js = paths.sourceRoot + "js/**/*.js";
+paths.source.jsx = paths.sourceRoot + "jsx/**/*.jsx";
+paths.source.minJs = paths.sourceRoot + "js/**/*.min.js";
+paths.source.css = paths.sourceRoot + "css/**/*.css";
+paths.source.minCss = paths.sourceRoot + "css/**/*.min.css";
+paths.source.concatJsDest = paths.sourceRoot + "js/site.min.js";
+paths.source.concatCssDest = paths.sourceRoot + "css/site.min.css";
 
 gulp.task("clean:js", function (cb) {
-    rimraf(paths.concatJsDest, cb);
+    rimraf(paths.source.concatJsDest, cb);
 });
 
 gulp.task("clean:css", function (cb) {
-    rimraf(paths.concatCssDest, cb);
+    rimraf(paths.source.concatCssDest, cb);
 });
 
 gulp.task("clean", ["clean:js", "clean:css"]);
 
 gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
-        .pipe(concat(paths.concatJsDest))
+    return gulp.src([paths.source.js, "!" + paths.source.minJs], { base: "." })
+        .pipe(concat(paths.source.concatJsDest))
         .pipe(uglify())
         .pipe(gulp.dest("."));
 });
 
 gulp.task("min:css", function () {
-    return gulp.src([paths.css, "!" + paths.minCss])
-        .pipe(concat(paths.concatCssDest))
+    return gulp.src([paths.source.css, "!" + paths.source.minCss])
+        .pipe(concat(paths.source.concatCssDest))
         .pipe(cssmin())
         .pipe(gulp.dest("."));
 });
@@ -61,6 +65,8 @@ gulp.task('handleJsx', function () {
         .on('error', function (err) { console.error(err); })
         .pipe(source('bundle.js'))
         .pipe(buffer())
-        //.pipe(uglify()) // Use any gulp plugins you want now
-        .pipe(gulp.dest(paths.webroot + 'prod'));
+        .pipe(sourcemaps.init({loadMaps:true}))
+        .pipe(uglify()) // Use any gulp plugins you want now
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(paths.deployRoot + 'prod'));
 });
