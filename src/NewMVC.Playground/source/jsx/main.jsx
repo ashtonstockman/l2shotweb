@@ -1,6 +1,6 @@
 ﻿var React = require('react');
 var ReactDOM = require('react-dom');
-var Button = require('react-toolbox/lib/button');
+import Button from 'react-toolbox/lib/button';
 
  
 var App = React.createClass({
@@ -13,4 +13,3 @@ ReactDOM.render(
     <App />,
     document.getElementById('app')
 );
- 
