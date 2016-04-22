@@ -1,12 +1,13 @@
 ﻿var React = require('react');
 var ReactDOM = require('react-dom');
-import Button from 'react-toolbox/lib/button';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 
 var App = React.createClass({
     render: function() {
-        return (<div>
-            <Button label="Hello world" raised accent /><br /><br /><br /><br /><br /><br /><br /><br />
+        console.log('test');
+        return (<div><br /><br /><br /><br /><br /><br /><br /><br />
+            <RaisedButton label="Material-UI Button" />
         </div>);
     }
 });

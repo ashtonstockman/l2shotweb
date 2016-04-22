@@ -3,7 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, ''),
-    entry: './source/jsx/main.jsx',
+    entry: { main: './source/jsx/main.jsx', derp: './source/jsx/derp.jsx' },
     output: {
         path: path.join(__dirname, 'wwwroot/prod'),
         filename: '[name].bundle.js'
@@ -16,6 +16,13 @@ module.exports = {
         ]
     },
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx?$/,
+                loaders: ['eslint'],
+                include: path.join(__dirname, '')
+            }
+        ],
         loaders: [
             {
                 test: /(\.js|\.jsx)$/,
