@@ -10,8 +10,8 @@ var gulp = require("gulp"),
     browserify = require("browserify"),
     buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream'),
-    sourcemaps = require('gulp-sourcemaps');
-
+    sourcemaps = require('gulp-sourcemaps'),
+    webpack = require('webpack');
 
 
     
@@ -69,4 +69,16 @@ gulp.task('handleJsx', function () {
         .pipe(uglify()) // Use any gulp plugins you want now
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.deployRoot + 'prod'));
+});
+
+gulp.task('webpack-build', function(done) {
+    webpack(require('./webpack.config.js')).run(function (err, stats) {
+        if (err) {
+            console.log('Error', err);
+        }
+        else {
+            console.log(stats.toString());
+        }
+        done();
+    });
 });
