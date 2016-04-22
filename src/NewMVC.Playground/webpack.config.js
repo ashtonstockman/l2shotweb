@@ -3,6 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, ''),
+    devtool: 'source-map',
     entry: {
          main: './source/jsx/main.jsx',
          materialuiperf: './source/jsx/materialuiperf.jsx',
@@ -20,6 +21,13 @@ module.exports = {
         ]
     },
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx?$/,
+                loaders: ['eslint'],
+                include: path.join(__dirname, '')
+            }
+        ],
         loaders: [
             {
                 test: /(\.js|\.jsx)$/,
