@@ -3,6 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, ''),
+    devtool: 'source-map',
     entry: { main: './source/jsx/main.jsx', derp: './source/jsx/derp.jsx' },
     output: {
         path: path.join(__dirname, 'wwwroot/prod'),
