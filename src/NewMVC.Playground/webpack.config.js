@@ -1,5 +1,6 @@
 ﻿var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack = require('webpack');
 
 module.exports = {
     context: path.join(__dirname, ''),
@@ -43,6 +44,8 @@ module.exports = {
             }
         ]
     }
-    //,
-    //plugins: [new ExtractTextPlugin('react-toolbox.css', { allChunks: true })]
+    ,
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin()
+    ]
 }; 
