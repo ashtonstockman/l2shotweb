@@ -13,7 +13,7 @@ var App = React.createClass({
             value: event
         });
     },
-
+    
     render: function() {
         return (<div><br /><br /><br />
                  <Input type='text' label='Name' name='name' value={this.state.value} onChange={this.handleChange} />
@@ -27,4 +27,3 @@ ReactDOM.render(
     <App />,
     document.getElementById('app')
 );
-//

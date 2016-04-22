@@ -28,7 +28,7 @@
     "toolbox-loader": "^0.0.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "style-loader": "^0.13.1",
-    "material-ui":  "0.14.4" 
+    "material-ui": "0.14.4"
   },
   "main": "./wwwroot/prod/bundle.js",
   "scripts": {
