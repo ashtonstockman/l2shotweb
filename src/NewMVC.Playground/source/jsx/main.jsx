@@ -8,10 +8,10 @@ var App = React.createClass({
         return { value:'' };
     },
     handleChange: function(event) {
-        this.setState({
-            value: event.target.value
-        });
         console.log(event);
+        this.setState({
+            value: event
+        });
     },
 
     render: function() {
