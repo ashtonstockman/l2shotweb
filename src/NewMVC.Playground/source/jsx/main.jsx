@@ -150,38 +150,39 @@ var App = React.createClass({
             <br /><br /><br />
             <div className="bachelor">
             <Card>
-                <CardTitle title='Bachelor #1' />
+                <CardTitle title='Option #1' />
                 <CardText>
                     <RtInput label='Name' name='Name' />
                     <RtInput label='Address' name='Address' />
-                    <RtDatePicker />
+                    <MuiDatePicker hintText="Enter date" />
                     <RtCheckbox label='One' /><RtCheckbox label='Two' />
-                    <RtDropdown />
+                    <MuiDropdown />
                     <RtRadio />
-                    <Button label='Button' raised primary />
-                    <Button label='Button2' raised accent />
-                    <Button label='Add this' flat primary />
+                    <MuiRaisedButton label="Button" primary={true} />
+                    <MuiRaisedButton label="Button2" secondary={true} />
+                    <FlatButton label='Add this' primary={true} />
                 </CardText>
             </Card>
             </div>
             <div className="bachelor">
             <br /><br />
             <MuiCard>
-                <MuiCardHeader title="Bachelor #2" />
+                <MuiCardHeader title="Option #2" />
                 <MuiCardText>
                     <MuiTextField floatingLabelText='Name' />
                     <MuiTextField floatingLabelText='Address' />
-                    <MuiDatePicker hintText="Enter date" />
+                    <RtDatePicker />
                     <MuiCheckbox label='One' /><MuiCheckbox label='Two' />
-                    <MuiDropdown />
+                    <RtDropdown />
+
                     <MuiRadioButtonGroup name="shipSpeed">
                         <MuiRadioButton value="1" label='one' />
                         <MuiRadioButton value="2" label='two' />
                         <MuiRadioButton value="3" label='three' />
                     </MuiRadioButtonGroup>
-                    <MuiRaisedButton label="Button" primary={true} />
-                    <MuiRaisedButton label="Button2" secondary={true} />
-                    <FlatButton label='Add this' primary={true} />
+                    <Button label='Button' raised primary />
+                    <Button label='Button2' raised accent />
+                    <Button label='Add this' flat primary />
 
                 </MuiCardText>
             </MuiCard>
