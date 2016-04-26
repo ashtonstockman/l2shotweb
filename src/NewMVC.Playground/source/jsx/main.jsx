@@ -2,7 +2,6 @@
 var ReactDOM = require('react-dom');
 import Button from 'react-toolbox/lib/button';
 
-
 var App = React.createClass({
     render: function() {
         return (<div>

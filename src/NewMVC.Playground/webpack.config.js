@@ -5,7 +5,7 @@ var webpack = require('webpack');
 module.exports = {
     context: path.join(__dirname, ''),
     devtool: 'source-map',
-    entry: { main: './source/jsx/main.jsx', derp: './source/jsx/derp.jsx' },
+    entry: { main: './source/jsx/main.jsx' },
     output: {
         path: path.join(__dirname, 'wwwroot/prod'),
         filename: '[name].bundle.js'
@@ -17,11 +17,11 @@ module.exports = {
           path.resolve(__dirname, './node_modules')
         ]
     },
-    //externals: {
-    //    // Use external version of React
-    //    "react": "React",
-    //    "react-dom": "ReactDOM"
-    //},
+    externals: {
+        // Use external version of React
+        "react": "React",
+        "react-dom": "ReactDOM"
+    },
     module: {
         preLoaders: [
             {
@@ -33,7 +33,7 @@ module.exports = {
         loaders: [
             {
                 test: /(\.js|\.jsx)$/,
-                exclude: /(node_modules)/,
+                exclude: [/(node_modules)/],
                 loader: 'babel',
                 query: {
                     presets: ['es2015', 'react']
