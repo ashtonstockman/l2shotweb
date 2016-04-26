@@ -17,6 +17,11 @@ module.exports = {
           path.resolve(__dirname, './node_modules')
         ]
     },
+    //externals: {
+    //    // Use external version of React
+    //    "react": "React",
+    //    "react-dom": "ReactDOM"
+    //},
     module: {
         preLoaders: [
             {
