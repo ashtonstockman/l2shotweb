@@ -18,7 +18,7 @@
     "gulp-sourcemaps": "^2.0.0-alpha",
     "gulp-uglify": "1.2.0",
     "lodash": "^4.11.1",
-    "medkoder.frontend.core": "git+ssh://git@medkoder.git.beanstalkapp.com:/medkoder/medkoder-frontend-core.git",
+    "medkoder.frontend.core": "git+ssh://git@medkoder.git.beanstalkapp.com:/medkoder/medkoder-frontend-core.git#master",
     "node-sass": "3.4.2",
     "react": "15.0.1",
     "react-dom": "15.0.1",
