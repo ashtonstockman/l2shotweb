@@ -1,12 +1,16 @@
 ﻿var React = require('react');
 var ReactDOM = require('react-dom');
-import Button from 'react-toolbox/lib/button';
+import {Sample} from 'medkoder.frontend.core/lib';
+import {Sample2} from 'medkoder.frontend.core/lib';
 
 var App = React.createClass({
     render: function() {
-        return (<div>
-            <Button label="Hello world" raised accent /><br /><br /><br /><br /><br /><br /><br /><br />
-        </div>);
+        return (
+            <div>
+                <Sample />
+                <Sample2 />
+            </div>
+        );
     }
 });
 
