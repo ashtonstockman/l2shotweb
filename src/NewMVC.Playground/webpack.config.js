@@ -1,5 +1,4 @@
 ﻿var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
 
 module.exports = {
@@ -39,18 +38,20 @@ module.exports = {
                     presets: ['es2015', 'react']
                 },
                 include: path.join(__dirname, '')
-            }, {
+            },
+            {
                 test: /(\.scss|\.css)$/,
                 loaders: [
                   require.resolve('style-loader'),
                   require.resolve('css-loader') + '?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-                  require.resolve('sass-loader') + '?sourceMap'
+                  require.resolve('sass-loader') + '?sourceMap',
+                  require.resolve('toolbox-loader')
                 ]
             }
         ]
-    }
-    ,
+    },
+    toolbox: { theme: path.join(__dirname, './node_modules/medkoder.frontend.core/theme/sample.scss') },
     plugins: [
         new webpack.optimize.UglifyJsPlugin()
     ]
-}; 
+};
